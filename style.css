@@ -1,0 +1,414 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: linear-gradient(to right, #000000, #2a2a2a);
+    color: #ffffff; /* Weiß */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background: linear-gradient(to right, #000000, #2a2a2a);
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    width: 150%;
+    max-width: 1000px;
+}
+
+header h1 {
+    color: #ffffff; /* war blau is jetzt weiß */
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 3.5em;
+}
+
+section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(to right, #000000, #2a2a2a);
+    border-radius: 15px;
+    box-shadow: 0 1px 20px rgba(255, 255, 255, 0.784);
+    
+
+}
+
+section h2 {
+    color: #ffffff;
+    text-align: center;
+    margin-top: 0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    color: #ececec;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+select {
+    padding: 15px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    background-color: #000000;
+    color: #ffffff;
+    width: calc(75% - 22px);
+    box-sizing: border-box;
+    box-shadow: #00ff00 inset;
+    font-size: 1em;
+}
+
+input[type="text"], input[type="number"], input[type="slider"]  {
+    padding: 15px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    background-color: #000000;
+    color: #ffffff;
+    width: calc(100% - 22px);
+    box-sizing: border-box;
+    box-shadow: #00ff00;
+    font-size: 1em;
+}
+
+input[type="color"] {
+    padding: 15px;
+    border:10px solid #000000;
+    border-radius: 5px;
+    background-color:#000000;
+    width: calc(40% - 22px)
+
+
+}
+
+button {
+    position: relative;
+    padding: 12px 35px;
+    background: #00ff00;
+    font-size: 17px;
+    font-weight: 500;
+    color: #181818;
+    border: 3px solid #00ff00;
+    border-radius: 8px;
+    box-shadow: 0 0 0 #00ff0062;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .star-1 {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 25px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96);
+  }
+  
+  .star-2 {
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    width: 15px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+  }
+  
+  .star-3 {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    width: 5px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+  }
+  
+  .star-4 {
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    width: 8px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01);
+  }
+  
+  .star-5 {
+    position: absolute;
+    top: 25%;
+    left: 45%;
+    width: 15px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01);
+  }
+  
+  .star-6 {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    width: 5px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 0.8s ease;
+  }
+  
+  button:hover {
+    background: transparent;
+    color: #00ff00;
+    box-shadow: 0 0 25px #00ff0062;
+  }
+  
+  button:hover .star-1 {
+    position: absolute;
+    top: -80%;
+    left: -30%;
+    width: 25px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+  
+  button:hover .star-2 {
+    position: absolute;
+    top: -25%;
+    left: 10%;
+    width: 15px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+  
+  button:hover .star-3 {
+    position: absolute;
+    top: 55%;
+    left: 25%;
+    width: 5px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+  
+  button:hover .star-4 {
+    position: absolute;
+    top: 30%;
+    left: 80%;
+    width: 8px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+  
+  button:hover .star-5 {
+    position: absolute;
+    top: 25%;
+    left: 115%;
+    width: 15px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+  
+  button:hover .star-6 {
+    position: absolute;
+    top: 5%;
+    left: 60%;
+    width: 5px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+  
+  .fil0 {
+    fill: #fffdef;
+  }
+  
+
+.device-control {
+    background-color: #000000;
+    border: 1px solid #000000;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.device-control h3 {
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+.lampe-controls label {
+    display: inline-block;
+    width: 120px;
+    margin-right: 10px;
+    color: #ffffff;
+}
+
+
+.lampe-controls input[type="slider"] {
+  width: calc(100% - 22px);
+  vertical-align: middle;
+  appearance: none;
+}
+
+
+
+.lampe-controls input[type="color"] {
+    width: calc(25% - 22px);
+    vertical-align: middle;
+}
+
+.timer-controls {
+    margin-top: 10px;
+}
+
+.timer-controls label {
+    display: inline-block;
+    width: 120px;
+    margin-right: 10px;
+    color: #ececec;
+}
+
+.timer-controls input[type="number"] {
+    width: 80px;
+}
+
+.timer-running {
+    color: #ff0000; 
+    font-style: italic;
+    display: block;
+    margin-top: 5px;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: calc(100% - 180px);
+  height: 10px;
+  border-radius: 5px;
+  margin-top: 15px;
+  background: linear-gradient(to right, #00ff00 0%, #00ff00 50%, #000000 50%, #000000 100%);
+  outline: none;
+  margin-right: 10px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #00ff00;
+  cursor: pointer;
+  border: 2px solid #000000;
+  box-shadow: 0 0 5px #000000;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 5px #000000;
+}
+
+.percentage {
+  display: inline-block;
+  width: 50px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+}
+
+/* Color Picker Container */
+.color-picker-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+
+/* Color Input */
+input[type="color"] {
+  -webkit-appearance: none;
+  width: 60px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: 2px solid #000000;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+
+select {
+  -webkit-appearance: none;
+  width: calc(100% - 22px);
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  background: color(#0000 red green blue);
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Animierter Hintergrund */
+body {
+  position: relative;
+  /* Vorhandene body-Stile beibehalten, aber diese hinzufügen: */
+  overflow-x: hidden;
+}
+
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Hinter allem anderen */
+  background-color: #000000;
+}
+
+.rectangle {
+  position: absolute;
+  border-radius: 4px;
+  transform-origin: center;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.8) 100%);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  opacity: 0.6;
+  pointer-events: none; /* Damit die Rechtecke keine Klicks abfangen */
+}
