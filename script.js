@@ -37,8 +37,8 @@ function renderDevices() {
             const lampeControls = document.createElement('div');
             lampeControls.classList.add('lampe-controls');
             lampeControls.innerHTML = `
-                <label>An/Aus:</label>
-                <button onclick="toggleLampe(${device.id})">${device.isOn ? 'Aus' : 'An'}</button><br>
+                <label>Status:</label>
+                <button onclick="toggleLampe(${device.id})">${device.isOn ? 'An' : 'Aus'}</button><br>
     
                 <div class="slider-container">
                     <label for="brightness-${device.id}">Helligkeit:</label>
