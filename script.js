@@ -26,6 +26,7 @@ function addDevice() {
     }
 }
 
+
 function renderDevices() {
     devicesDiv.innerHTML = '';
     deviceList.forEach(device => {
@@ -56,13 +57,21 @@ function renderDevices() {
                     <button onclick="startTimer(${device.id})">Start</button>
                     ${device.timer ? `<button onclick="cancelTimer(${device.id})">Abbrechen</button> <p class="timer-running">Timer läuft...</p>` : ''}
                 </div>
+                <div class"delete-device">
+                <button onclick="deleteDevice(${device.id})">Löschen</button>
+                </div>
             `;
             deviceDiv.appendChild(lampeControls);
         } else if (device.type === 'klickbot') {
             const klickbotControls = document.createElement('div');
             klickbotControls.classList.add('klickbot-controls');
             klickbotControls.innerHTML = `
-                <button onclick="simulateClick('${device.name}')">Klicken</button>
+                <button onclick="simulateClick('${device.id}')">Klicken</button>
+
+                </div>
+                <div class"delete-device">
+                <button onclick="deleteDevice(${device.id})">Löschen</button>
+                </div>
             `;
             deviceDiv.appendChild(klickbotControls);
         }
@@ -136,9 +145,19 @@ function cancelTimer(deviceId) {
     }
 }
 
-function simulateClick(deviceName) {
+function simulateClick(deviceId) {
     console.log(`${deviceName} hat geklickt!`);
 }
+
+function deleteDevice(deviceId) {
+    var removeIndex = deviceList.map(item=> item.id).indexOf(deviceId);
+    if (removeIndex >=0) {
+        deviceList.splice(removeIndex, 1);
+    }
+
+    renderDevices();
+}
+
 
 renderDevices();
 

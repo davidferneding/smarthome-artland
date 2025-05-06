@@ -100,6 +100,7 @@ button {
     box-shadow: 0 0 0 #00ff0062;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
+    margin: 10px;
   }
   
   .star-1 {
@@ -384,6 +385,17 @@ select {
   background: color(#0000 red green blue);
   cursor: pointer;
   padding: 0;
+}
+
+.delete-device button{
+  background: #ff0000;
+    font-size: 17px;
+    font-weight: 500;
+    color: #181818;
+    border: 3px solid #ff0000;
+    border-radius: 8px;
+    box-shadow: 0 0 0 #9c070762;
+    transition: all 0.3s ease-in-out;
 }
 
 /* Animierter Hintergrund */
