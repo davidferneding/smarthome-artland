@@ -387,15 +387,24 @@ select {
   padding: 0;
 }
 
-.delete-device button{
-  background: #ff0000;
+.delete{ 
+    display: flex;
+    align-items: center;
+    background: #000000;
     font-size: 17px;
     font-weight: 500;
-    color: #181818;
-    border: 3px solid #ff0000;
+    color: #ff0000af;
+    border: 3px solid #ff00005b;
     border-radius: 8px;
     box-shadow: 0 0 0 #9c070762;
     transition: all 0.3s ease-in-out;
+}
+
+.delete:hover {
+    background: #ff3c0018;
+    color: #ff3c00;
+    border: 3px solid #ff3c00;
+    box-shadow: 0 0 25px #ff3c0096;
 }
 
 /* Animierter Hintergrund */

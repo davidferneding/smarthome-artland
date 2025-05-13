@@ -65,7 +65,8 @@ function renderDevices() {
                     ${device.timer ? `<button onclick="cancelTimer(${device.id})">Abbrechen</button> <p class="timer-running">Timer läuft...</p>` : ''}
                 </div>
                 <div class"delete-device">
-                <button onclick="deleteDevice(${device.id})">Löschen</button>
+                <button class="delete" onclick="deleteDevice(${device.id})">
+                <span class="material-icons">delete</span><span>Löschen</span></button>
                 </div>
             `;
             deviceDiv.appendChild(lampeControls);
@@ -77,7 +78,8 @@ function renderDevices() {
 
                 </div>
                 <div class"delete-device">
-                <button onclick="deleteDevice(${device.id})">Löschen</button>
+                <button class="delete" onclick="deleteDevice(${device.id})">
+                <span class="material-icons">delete</span><span>Löschen</span></button>
                 </div>
             `;
             deviceDiv.appendChild(klickbotControls);
@@ -87,7 +89,7 @@ function renderDevices() {
     });
 }
 
-function toggleLampe(deviceId) {
+function toggleLampe(deviceId) { 
     const device = deviceList.find(d => d.id === deviceId);
     if (device) {
         device.isOn = !device.isOn;
