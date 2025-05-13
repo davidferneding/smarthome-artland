@@ -1,15 +1,22 @@
+const baseUrl = "http://localhost:8000/";
 let deviceList = [];
 const devicesDiv = document.getElementById('devices');
 
-function addDevice() {
+async function addDevice() {
     const nameInput = document.getElementById('device-name');
     const typeSelect = document.getElementById('device-type');
     const name = nameInput.value.trim();
     const type = typeSelect.value;
-
     if (name) {
+
+    const response = await fetch(baseUrl + "add-device", {
+        method: "POST"
+    });
+         
+    const id = await response.json();
+
         const newDevice = {
-            id: Date.now(),
+            id: id,
             name: name,
             type: type,
             isOn: false,

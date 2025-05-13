@@ -172,3 +172,23 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+fastapi/pyvenv.cfg
+fastapi/Scripts/activate
+fastapi/Scripts/activate.bat
+fastapi/Scripts/Activate.ps1
+fastapi/Scripts/deactivate.bat
+fastapi/Scripts/dotenv.exe
+fastapi/Scripts/email_validator.exe
+fastapi/Scripts/fastapi.exe
+fastapi/Scripts/httpx.exe
+fastapi/Scripts/markdown-it.exe
+fastapi/Scripts/pip.exe
+fastapi/Scripts/pip3.11.exe
+fastapi/Scripts/pip3.exe
+fastapi/Scripts/pygmentize.exe
+fastapi/Scripts/python.exe
+fastapi/Scripts/pythonw.exe
+fastapi/Scripts/typer.exe
+fastapi/Scripts/uvicorn.exe
+fastapi/Scripts/watchfiles.exe
+fastapi/Scripts/websockets.exe
