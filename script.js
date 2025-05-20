@@ -9,7 +9,7 @@ async function addDevice() {
     const type = typeSelect.value;
     if (name) {
 
-    const response = await fetch(baseUrl + "add-device", {
+    const response = await fetch(baseUrl + "add-device?" + "name=" + nameInput.value + "&type=" + typeSelect.value, {
         method: "POST"
     });
          
