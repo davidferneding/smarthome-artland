@@ -17,11 +17,12 @@ class DeviceStatus(Enum):
 
 
 class Device:
-    def __init__(self, id, name, type, status):
+    def __init__(self, id, name, type, status = DeviceStatus.on, brightness = 100):
         self.id = id
         self.name = name
         self.type = type
         self.status = status
+        self.brightness = brightness 
         
 
 app = FastAPI()
@@ -36,7 +37,7 @@ app.add_middleware(
 @app.post("/add-device")
 def adddevice(name, type: DeviceType):
     id = str(uuid.uuid4())
-    device = Device(id, name, type, DeviceStatus.on)
+    device = Device(id, name, type)
     devicelist.setdefault(id,device)
     return device
 
@@ -50,3 +51,19 @@ def changeStatus(id, targetstatus: DeviceStatus):
     device.status = targetstatus
     return device
 
+@app.post("/change-name")
+def changeName(id, targetname):
+    device = devicelist[id]
+    device.name = targetname
+    return device
+
+@app.post("/change-brightness")
+def changeBrightness(id, targetbrightness):
+    device = devicelist[id]
+    device.brightness = targetbrightness
+    return device
+
+@app.delete("/delete-device")
+def deleteDevice(id):
+    if id in devicelist:
+        del devicelist[id]
