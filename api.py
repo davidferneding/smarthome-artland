@@ -1,14 +1,27 @@
 from fastapi import FastAPI , HTTPException
-
+from enum import Enum
 from fastapi.middleware.cors import CORSMiddleware
 import uuid
 
 devicelist={}
 
+class DeviceType(Enum):
+    lampe = "lampe"
+    clickbot = "clickbot"
+    andere = "andere"
+
+class DeviceStatus(Enum):
+    on = "on"
+    off = "off"
+    offline = "offline"
+
+
 class Device:
-    def __init__(self, id, name):
+    def __init__(self, id, name, type, status):
         self.id = id
         self.name = name
+        self.type = type
+        self.status = status
         
 
 app = FastAPI()
@@ -21,19 +34,19 @@ app.add_middleware(
 )
 
 @app.post("/add-device")
-def adddevice(name):
+def adddevice(name, type: DeviceType):
     id = str(uuid.uuid4())
-    device = Device(id,name)
+    device = Device(id, name, type, DeviceStatus.on)
     devicelist.setdefault(id,device)
-    return id
+    return device
 
+@app.get("/get-devices")
+def getdevices():
+    return {"devices": [device.__dict__ for device in devicelist.values()]}
 
-
-
-
- 
-
-
-
-
+@app.post("/change-status")
+def changeStatus(id, targetstatus: DeviceStatus):
+    device = devicelist[id]
+    device.status = targetstatus
+    return device
 
