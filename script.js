@@ -32,7 +32,17 @@ async function addDevice() {
         alert('Bitte gib einen Namen für das Gerät ein.');
     }
 }
+async function getDevices() {
+    const response = await fetch(baseUrl + "get-devices", {
+        method: "GET"
 
+    });
+
+    for(device in JSON.parse(response.json)){
+    deviceList.push(device)
+    }
+      
+}
 
 function renderDevices() {
     devicesDiv.innerHTML = '';
