@@ -50,3 +50,8 @@ def changeStatus(id, targetstatus: DeviceStatus):
     device.status = targetstatus
     return device
 
+@app.post("/change-name")
+def changeName(id, targetname):
+    device = devicelist[id]
+    device.name = targetname
+    return device
