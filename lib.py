@@ -1,6 +1,9 @@
 import subprocess
 import re
 
+lumen = []
+position = 0
+
 def pairLamp(id: int):
     subprocess.Popen(f'chip-tool pairing ble-wifi {id} AMC_Mitarbeiter 837fh37#Zu47+ 33374968 2661 --paa-trust-store-path ~/matter/connectedhomeip/credentials/production/paa-root-certs/')
 
@@ -12,14 +15,12 @@ def toggle(id: int):
 
 def changeBrightness(id: int, shouldbehigher: bool):
 
-    lumen = [1,]
-    index = 0
     if shouldbehigher:
-        index = +1
-        subprocess.Popen(f'chip-tool levelcontrol move-to-level {lumen[index]} 10 0 0 {id} 1')
+        position = +1
+        subprocess.Popen(f'chip-tool levelcontrol move-to-level {lumen[position]} 10 0 0 {id} 1')
     else:
-        index = -1
-        subprocess.Popen(f'chip-tool levelcontrol move-to-level {lumen[index]} 10 0 0 {id} 1')
+        position = -1
+        subprocess.Popen(f'chip-tool levelcontrol move-to-level {lumen[position]} 10 0 0 {id} 1')
 
 
 def changeColor(id: int, hex: str):

@@ -44,12 +44,11 @@ async function getDevices() {
     for(device in JSON.parse(response.json)){
     deviceList.push(device)
     }
-
-    renderDevices();
 }
 
 function renderDevices() {
     devicesDiv.innerHTML = '';
+    getDevices()
     deviceList.forEach(device => {
         const deviceDiv = document.createElement('div');
         deviceDiv.classList.add('device-control');
@@ -116,10 +115,11 @@ async function toggleLampe(deviceId) {
     }
 }
 
-async function setBrightness(deviceId, brightness) {
+async function setBrightness(deviceId, brighter: boolean) {
     const device = deviceList.find(d => d.id === deviceId);
     if (device) {
-        device.brightness = brightness;
+        const response = await fetch( baseUrl + "change-brightness?id=" + deviceId + "&higherbrightness=" + brighter)
+        device.brightness = lib.lumen[lib.position];
         console.log(`${device.name} Helligkeit: ${brightness}%`);
     }
 }
