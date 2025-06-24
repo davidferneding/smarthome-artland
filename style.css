@@ -54,6 +54,11 @@ section h2 {
     font-weight: bold;
 }
 
+.cb-container {
+  cursor: pointer;
+  max-width: 170px;
+}
+
 select {
     padding: 15px;
     border: 1px solid #000000;

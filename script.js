@@ -53,6 +53,18 @@ async function getDevices() {
     renderDevices();
 }
 
+document.getElementById('toggleNodeId').addEventListener('change', 
+    function () {
+        const aktiv = this.checked;
+        const element = document.getElementById('nodeid');
+
+        if (aktiv) {
+            element.style.display = 'block';
+         } else {
+         element.style.display = 'none';
+        }
+});
+
 function renderDevices() {
     devicesDiv.innerHTML = '';
     deviceList.forEach(device => {
