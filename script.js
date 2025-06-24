@@ -1,22 +1,26 @@
 const baseUrl = "http://localhost:8000/";
-let deviceList = [];
+let deviceList = []
 const devicesDiv = document.getElementById('devices');
 
 async function addDevice() {
     const nameInput = document.getElementById('device-name');
     const typeSelect = document.getElementById('device-type');
+    const nodeIdobj = document.getElementById('device-node-id');
     const name = nameInput.value.trim();
     const type = typeSelect.value;
+    const nodeId = nodeIdobj.value;
     if (name) {
 
-    const response = await fetch(baseUrl + "add-device?" + "name=" + nameInput.value + "&type=" + typeSelect.value, {
+    const response = await fetch(baseUrl + "add-device?" + "name=" + nameInput.value + "&type=" + typeSelect.value + "&nodeid=" + nodeId, {
         method: "POST"
     });
          
-    const id = await response.json();
+    const device = await response.json();
+    console.log("added device with id",device.id)
+    console.log("added device with nodeid",nodeId)
 
         const newDevice = {
-            id: id,
+            id: device.id,
             name: name,
             type: type,
             isOn: false,
@@ -35,13 +39,11 @@ async function addDevice() {
 async function getDevices() {
     const response = await fetch(baseUrl + "get-devices", {
         method: "GET"
-
     });
-
+    deviceList = []
     for(device in JSON.parse(response.json)){
     deviceList.push(device)
     }
-      
 }
 
 function renderDevices() {
@@ -58,10 +60,10 @@ function renderDevices() {
                 <label>Status:</label>
                 <button onclick="toggleLampe(${device.id})">${device.isOn ? 'An' : 'Aus'}</button><br>
     
-                <div class="slider-container">
+                <div>
                     <label for="brightness-${device.id}">Helligkeit:</label>
-                    <input type="range" id="brightness-${device.id}" min="0" max="100" value="${device.brightness}" oninput="setBrightness(${device.id}, this.value); updateSliderUI(this)">
-                    <span class="percentage">${device.brightness}%</span>
+                    <button id="brightness-${device.id}" onclick="setBrightness(${device.id},false)">Dunkler</button>
+                    <button id="brightness-${device.id}" onclick="setBrightness(${device.id},true)">Heller</button>
                 </div>
                 <div class="color-picker-container">
                     <label for="color-${device.id}">Farbe:</label>
@@ -96,12 +98,17 @@ function renderDevices() {
         }
 
         devicesDiv.appendChild(deviceDiv);
+        console.log(device.id)
     });
 }
 
-function toggleLampe(deviceId) { 
+async function toggleLampe(deviceId) {
     const device = deviceList.find(d => d.id === deviceId);
     if (device) {
+        const response = await fetch (baseUrl + "change-status?id=" + deviceId,
+            {
+                method: "POST"
+            })
         device.isOn = !device.isOn;
         renderDevices();
         console.log(`${device.name} ist jetzt ${device.isOn ? 'an' : 'aus'}.`);
@@ -116,9 +123,10 @@ function setBrightness(deviceId, brightness) {
     }
 }
 
-function setColor(deviceId, color) {
+async function setColor(deviceId, color) {
     const device = deviceList.find(d => d.id === deviceId);
     if (device) {
+        const response = await fetch (baseUrl + "change-color?id=" + deviceId + "&color=" + color)
         device.color = color;
         console.log(`${device.name} Farbe: ${color}`);
     }
@@ -168,12 +176,14 @@ function simulateClick(deviceId) {
     console.log(`${deviceName} hat geklickt!`);
 }
 
-function deleteDevice(deviceId) {
-    var removeIndex = deviceList.map(item=> item.id).indexOf(deviceId);
-    if (removeIndex >=0) {
-        deviceList.splice(removeIndex, 1);
-    }
-
+ async function deleteDevice(deviceId) {
+    const response = await fetch(baseUrl + "delete-device?id=" + deviceId,
+        {
+            method: 'DELETE'
+        }
+    );
+    const deleteIndex = deviceList.findIndex(x => x.id === deviceId)
+    deviceList.splice(deleteIndex,1)
     renderDevices();
 }
 

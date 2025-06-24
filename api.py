@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi import FastAPI , HTTPException
 from enum import Enum
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,13 +18,14 @@ class DeviceType(Enum):
 
 
 class Device:
-    def __init__(self, id, name, type, status = deviceStatus, brightness = 100,color = "#da1195"):
+    def __init__(self, id, name, type, nodeid, status = deviceStatus, brightness = 100,color = "#da1195",):
         self.id = id
         self.name = name
         self.type = type
         self.status = status
         self.brightness = brightness
         self.color = color
+        self.nodeid = nodeid
         
 
 app = FastAPI()
@@ -35,14 +38,14 @@ app.add_middleware(
 )
 
 @app.post("/add-device")
-def adddevice(name, type: DeviceType, node_id: int | None = None):
-    if not node_id:
-        id = int(random.randint(1,4000))
-    else:
-        id = node_id
+def adddevice(name, type: DeviceType, nodeid: int | None = None):
+    if nodeid is None:
+       nodeid = random.randint(1, 4000)
+       lib.pairLamp(nodeid)
+    id = random.randint(4000, 100000)
     print("adding device", id)
-    devicename = name + str(id)
-    device = Device(id, devicename, type)
+    devicename = name + str(nodeid)
+    device = Device(id, devicename, type, nodeid)
     devicelist.setdefault(id,device)
     return device
 
@@ -83,7 +86,7 @@ def changeBrightness(id, higherbrightness):
 
 @app.delete("/delete-device")
 def deleteDevice(id: int):
-    print("deleting the device", id)
+    print("deleting: the device", id)
     if devicelist[id]:
        del devicelist[id]
        return "deleted device"
