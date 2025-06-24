@@ -7,7 +7,7 @@ devicelist={}
 
 class DeviceType(Enum):
     lampe = "lampe"
-    clickbot = "clickbot"
+    clickbot = "klickbot"
     andere = "andere"
 
 class DeviceStatus(Enum):
