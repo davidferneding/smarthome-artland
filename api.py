@@ -38,7 +38,7 @@ app.add_middleware(
 )
 
 @app.post("/add-device")
-def adddevice(name, type: DeviceType, nodeid: int | None = None):
+def addDevice(name, type: DeviceType, nodeid: int | None = None):
     if nodeid is None:
         nodeid = random.randint(1, 4000)
         if type == DeviceType.light:
@@ -53,18 +53,18 @@ def adddevice(name, type: DeviceType, nodeid: int | None = None):
     return device
 
 @app.get("/get-devices")
-def getdevices():
+def getDevices():
     return {"devices": [device.__dict__ for device in devicelist.values()]}
 
-@app.post("/change-status")
-def changeStatus(id, targetstatus: DeviceStatus):
+@app.post("/toggle")
+def toggle(id):
     device = devicelist[id]
     lib.toggle(device.nodeid)
-    device.status = targetstatus
+    device.status = DeviceStatus.on
     return device
 
 @app.post("/change-color")
-def changeColor(id,color):
+def changeColor(id, color):
     device = devicelist[id]
     print("change color ", id)
     lib.changeColor(device.nodeid, color)

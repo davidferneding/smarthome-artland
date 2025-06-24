@@ -124,8 +124,7 @@ function renderDevices() {
 async function toggleLight(deviceId) {
     const device = deviceList.find(d => d.id === deviceId);
     if (device) {
-        const newStatus = device.isOn ? 'off' : 'on';
-        await fetch(baseUrl + `change-status?id=${deviceId}&targetstatus=${newStatus}`, {
+        await fetch(baseUrl + `toggle?id=${deviceId}`, {
             method: "POST"
         });
         device.isOn = !device.isOn;
