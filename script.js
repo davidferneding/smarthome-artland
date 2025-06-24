@@ -5,22 +5,18 @@ const devicesDiv = document.getElementById('devices');
 async function addDevice() {
     const nameInput = document.getElementById('device-name');
     const typeSelect = document.getElementById('device-type');
-    const nodeIdobj = document.getElementById('device-node-id');
     const name = nameInput.value.trim();
     const type = typeSelect.value;
-    const nodeId = nodeIdobj.value;
     if (name) {
 
-    const response = await fetch(baseUrl + "add-device?" + "name=" + nameInput.value + "&type=" + typeSelect.value + "&nodeid=" + nodeId, {
+    const response = await fetch(baseUrl + "add-device?" + "name=" + nameInput.value + "&type=" + typeSelect.value, {
         method: "POST"
     });
          
-    const device = await response.json();
-    console.log("added device with id",device.id)
-    console.log("added device with nodeid",nodeId)
+    const data  = await response.json();
 
         const newDevice = {
-            id: device.id,
+            id: data.id,        
             name: name,
             type: type,
             isOn: false,
@@ -36,19 +32,29 @@ async function addDevice() {
         alert('Bitte gib einen Namen für das Gerät ein.');
     }
 }
+
 async function getDevices() {
-    const response = await fetch(baseUrl + "get-devices", {
-        method: "GET"
+    const response = await fetch(baseUrl + "get-devices", { method: "GET" });
+    const data = await response.json();
+
+    data.devices.forEach(device => {
+        deviceList.push({
+            id: device.id,
+            name: device.name,
+            type: device.type,
+            isOn: device.status === "on",
+            brightness: device.brightness ?? 50,
+            color: '#ffffff',
+            timer: null,
+            timerDuration: 0
+        });
     });
-    deviceList = []
-    for(device in JSON.parse(response.json)){
-    deviceList.push(device)
-    }
+
+    renderDevices();
 }
 
 function renderDevices() {
     devicesDiv.innerHTML = '';
-    getDevices()
     deviceList.forEach(device => {
         const deviceDiv = document.createElement('div');
         deviceDiv.classList.add('device-control');
@@ -59,12 +65,13 @@ function renderDevices() {
             lampeControls.classList.add('lampe-controls');
             lampeControls.innerHTML = `
                 <label>Status:</label>
-                <button onclick="toggleLampe(${device.id})">${device.isOn ? 'An' : 'Aus'}</button><br>
+                <button onclick="toggleLampe('${device.id}')">${device.isOn ? 'An' : 'Aus'}</button><br>
+
     
-                <div>
+                <div class="slider-container">
                     <label for="brightness-${device.id}">Helligkeit:</label>
-                    <button id="brightness-${device.id}" onclick="setBrightness(${device.id},false)">Dunkler</button>
-                    <button id="brightness-${device.id}" onclick="setBrightness(${device.id},true)">Heller</button>
+                    <input type="range" id="brightness-${device.id}" min="0" max="100" value="${device.brightness}" onchange="setBrightness('${device.id}', this.value); updateSliderUI(this)">
+                    <span class="percentage">${device.brightness}%</span>
                 </div>
                 <div class="color-picker-container">
                     <label for="color-${device.id}">Farbe:</label>
@@ -78,7 +85,7 @@ function renderDevices() {
                     ${device.timer ? `<button onclick="cancelTimer('${device.id}')">Abbrechen</button> <p class="timer-running">Timer läuft...</p>` : ''}
                 </div>
                 <div class"delete-device">
-                <button class="delete" onclick="deleteDevice(${device.id})">
+                <button class="delete" onclick="deleteDevice('${device.id}')">
                 <span class="material-icons">delete</span><span>Löschen</span></button>
                 </div>
             `;
@@ -90,8 +97,8 @@ function renderDevices() {
                 <button onclick="simulateClick('${device.id}')">Klicken</button>
 
                 </div>
-                <div class"delete-device">
-                <button class="delete" onclick="deleteDevice(${device.id})">
+                <div class="delete-device">
+                <button class="delete" onclick="deleteDevice('${device.id}')">
                 <span class="material-icons">delete</span><span>Löschen</span></button>
                 </div>
             `;
@@ -105,31 +112,71 @@ function renderDevices() {
 async function toggleLampe(deviceId) {
     const device = deviceList.find(d => d.id === deviceId);
     if (device) {
-        const response = await fetch (baseUrl + "change-status?id=" + deviceId,
-            {
-                method: "POST"
-            })
+        const newStatus = device.isOn ? 'off' : 'on';
+        await fetch(baseUrl + `change-status?id=${deviceId}&targetstatus=${newStatus}`, {
+            method: "POST"
+        });
         device.isOn = !device.isOn;
         renderDevices();
         console.log(`${device.name} ist jetzt ${device.isOn ? 'an' : 'aus'}.`);
     }
 }
 
-async function setBrightness(deviceId, brighter: boolean) {
+async function setBrightness(deviceId, brightness) {
     const device = deviceList.find(d => d.id === deviceId);
     if (device) {
-        const response = await fetch( baseUrl + "change-brightness?id=" + deviceId + "&higherbrightness=" + brighter)
-        device.brightness = lib.lumen[lib.position];
-        console.log(`${device.name} Helligkeit: ${brightness}%`);
+        device.brightness = brightness;
+
+        try {
+            const res = await fetch(baseUrl + `change-brightness?id=${deviceId}&targetbrightness=${brightness}`, {
+                method: "POST"
+            });
+
+            if (!res.ok) throw new Error();
+            console.log(`${device.name} Helligkeit wurde auf ${brightness}% gesetzt.`);
+        } catch (error) {
+            alert(`Fehler beim Aktualisieren der Helligkeit für ${device.name}`);
+        }
+
+        renderDevices();
+    }
+}
+
+async function changeName(deviceId, newName) {
+    const device = deviceList.find(d => d.id === deviceId);
+    if (device && newName.trim()) {
+        const response = await fetch(`${baseUrl}change-name?id=${deviceId}&targetname=${encodeURIComponent(newName)}`, {
+            method: "POST"
+        });
+
+        if (response.ok) {
+            device.name = newName;
+            renderDevices();
+            console.log(`Name des Geräts wurde zu "${newName}" geändert.`);
+        } else {
+            alert("Fehler beim Ändern des Gerätenamens.");
+        }
+    } else {
+        alert("Ungültiger Name oder Gerät nicht gefunden.");
     }
 }
 
 async function setColor(deviceId, color) {
     const device = deviceList.find(d => d.id === deviceId);
     if (device) {
-        const response = await fetch (baseUrl + "change-color?id=" + deviceId + "&color=" + color)
         device.color = color;
-        console.log(`${device.name} Farbe: ${color}`);
+
+        fetch(baseUrl + `change-color?id=${deviceId}&color=${encodeURIComponent(color)}`, {
+            method: "POST"
+        }).then(response => {
+            if (!response.ok) throw new Error();
+            console.log(`${device.name} Farbe geändert zu ${color}`);
+        }).catch(() => {
+            alert(`Fehler beim Ändern der Farbe von ${device.name}`);
+        });
+        
+        console.log(`${device.name} Farbe geändert zu ${color}`);
+        renderDevices();
     }
 }
 
@@ -173,19 +220,28 @@ function cancelTimer(deviceId) {
     }
 }
 
-function simulateClick(deviceId) {
+function simulateClick(deviceName) {
     console.log(`${deviceName} hat geklickt!`);
 }
 
- async function deleteDevice(deviceId) {
-    const response = await fetch(baseUrl + "delete-device?id=" + deviceId,
-        {
-            method: 'DELETE'
+
+async function deleteDevice(deviceId) {
+    const index = deviceList.findIndex(d => d.id === deviceId);
+    if (index >= 0) {
+        try {
+            const res = await fetch(`${baseUrl}delete-device?id=${deviceId}`, {
+                method: 'DELETE'
+            });
+
+            if (!res.ok) throw new Error();
+
+            deviceList.splice(index, 1);
+            renderDevices();
+            console.log(`Gerät mit ID ${deviceId} wurde gelöscht.`);
+        } catch (error) {
+            alert("Fehler beim Löschen des Geräts.");
         }
-    );
-    const deleteIndex = deviceList.findIndex(x => x.id === deviceId)
-    deviceList.splice(deleteIndex,1)
-    renderDevices();
+    }
 }
 
 renderDevices();
