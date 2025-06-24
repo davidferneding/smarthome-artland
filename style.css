@@ -260,7 +260,7 @@ button {
     padding-bottom: 10px;
 }
 
-.lampe-controls label {
+.light-controls label {
     display: inline-block;
     width: 120px;
     margin-right: 10px;
@@ -268,7 +268,7 @@ button {
 }
 
 
-.lampe-controls input[type="slider"] {
+.light-controls input[type="slider"] {
   width: calc(100% - 22px);
   vertical-align: middle;
   appearance: none;
@@ -276,7 +276,7 @@ button {
 
 
 
-.lampe-controls input[type="color"] {
+.light-controls input[type="color"] {
     width: calc(25% - 22px);
     vertical-align: middle;
 }

@@ -72,12 +72,12 @@ function renderDevices() {
         deviceDiv.classList.add('device-control');
         deviceDiv.innerHTML = `<h3>${device.name} (${device.type})</h3>`;
 
-        if (device.type === 'lampe') {
-            const lampeControls = document.createElement('div');
-            lampeControls.classList.add('lampe-controls');
-            lampeControls.innerHTML = `
+        if (device.type === 'light') {
+            const lightControls = document.createElement('div');
+            lightControls.classList.add('light-controls');
+            lightControls.innerHTML = `
                 <label>Status:</label>
-                <button onclick="toggleLampe('${device.id}')">${device.isOn ? 'An' : 'Aus'}</button><br>
+                <button onclick="toggleLight('${device.id}')">${device.isOn ? 'An' : 'Aus'}</button><br>
 
     
                 <div class="slider-container">
@@ -101,11 +101,11 @@ function renderDevices() {
                 <span class="material-icons">delete</span><span>Löschen</span></button>
                 </div>
             `;
-            deviceDiv.appendChild(lampeControls);
-        } else if (device.type === 'klickbot') {
-            const klickbotControls = document.createElement('div');
-            klickbotControls.classList.add('klickbot-controls');
-            klickbotControls.innerHTML = `
+            deviceDiv.appendChild(lightControls);
+        } else if (device.type === 'plug') {
+            const plugControls = document.createElement('div');
+            plugControls.classList.add('plug-controls');
+            plugControls.innerHTML = `
                 <button onclick="simulateClick('${device.id}')">Klicken</button>
 
                 </div>
@@ -114,14 +114,14 @@ function renderDevices() {
                 <span class="material-icons">delete</span><span>Löschen</span></button>
                 </div>
             `;
-            deviceDiv.appendChild(klickbotControls);
+            deviceDiv.appendChild(plugControls);
         }
 
         devicesDiv.appendChild(deviceDiv);
     });
 }
 
-async function toggleLampe(deviceId) {
+async function toggleLight(deviceId) {
     const device = deviceList.find(d => d.id === deviceId);
     if (device) {
         const newStatus = device.isOn ? 'off' : 'on';

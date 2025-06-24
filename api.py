@@ -2,15 +2,14 @@ from fastapi import FastAPI , HTTPException
 from enum import Enum
 from fastapi.middleware.cors import CORSMiddleware
 import uuid
-# import lib
+import lib
 import random
 
 devicelist={}
 
 class DeviceType(Enum):
-    lampe = "lampe"
-    clickbot = "klickbot"
-    andere = "andere"
+    light = "light"
+    plug = "plug"
 
 class DeviceStatus(Enum):
     on = "on"
