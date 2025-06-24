@@ -11,7 +11,7 @@ deviceStatus: bool = True
 
 class DeviceType(Enum):
     lampe = "lampe"
-    clickbot = "clickbot"
+    clickbot = "klickbot"
     andere = "andere"
 
 

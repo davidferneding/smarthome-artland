@@ -1,5 +1,5 @@
 const baseUrl = "http://localhost:8000/";
-let deviceList = []
+let deviceList = [];
 const devicesDiv = document.getElementById('devices');
 
 async function addDevice() {
@@ -44,6 +44,8 @@ async function getDevices() {
     for(device in JSON.parse(response.json)){
     deviceList.push(device)
     }
+
+    renderDevices();
 }
 
 function renderDevices() {
@@ -68,13 +70,13 @@ function renderDevices() {
                 <div class="color-picker-container">
                     <label for="color-${device.id}">Farbe:</label>
                     <div class="color-preview" style="background-color: ${device.color}"></div>
-                    <input type="color" id="color-${device.id}" value="${device.color}" oninput="setColor(${device.id}, this.value); updateColorPreview(this)">
+                    <input type="color" id="color-${device.id}" value="${device.color}" onchange="setColor('${device.id}', this.value); updateColorPreview(this)">
                 </div>
                 <div class="timer-controls">
                     <label for="timer-${device.id}">Timer (Minuten):</label>
-                    <input type="number" id="timer-${device.id}" min="0" value="${device.timerDuration}" oninput="setTimerDuration(${device.id}, this.value)">
-                    <button onclick="startTimer(${device.id})">Start</button>
-                    ${device.timer ? `<button onclick="cancelTimer(${device.id})">Abbrechen</button> <p class="timer-running">Timer läuft...</p>` : ''}
+                    <input type="number" id="timer-${device.id}" min="0" value="${device.timerDuration}" onchange="setTimerDuration('${device.id}', this.value)">
+                    <button onclick="startTimer('${device.id}')">Start</button>
+                    ${device.timer ? `<button onclick="cancelTimer('${device.id}')">Abbrechen</button> <p class="timer-running">Timer läuft...</p>` : ''}
                 </div>
                 <div class"delete-device">
                 <button class="delete" onclick="deleteDevice(${device.id})">
@@ -98,7 +100,6 @@ function renderDevices() {
         }
 
         devicesDiv.appendChild(deviceDiv);
-        console.log(device.id)
     });
 }
 
@@ -115,7 +116,7 @@ async function toggleLampe(deviceId) {
     }
 }
 
-function setBrightness(deviceId, brightness) {
+async function setBrightness(deviceId, brightness) {
     const device = deviceList.find(d => d.id === deviceId);
     if (device) {
         device.brightness = brightness;
@@ -186,7 +187,6 @@ function simulateClick(deviceId) {
     deviceList.splice(deleteIndex,1)
     renderDevices();
 }
-
 
 renderDevices();
 
