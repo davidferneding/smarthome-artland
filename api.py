@@ -1,5 +1,3 @@
-import uuid
-
 from fastapi import FastAPI , HTTPException
 from enum import Enum
 from fastapi.middleware.cors import CORSMiddleware
@@ -42,7 +40,7 @@ def adddevice(name, type: DeviceType, nodeid: int | None = None):
     if nodeid is None:
        nodeid = random.randint(1, 4000)
        lib.pairLamp(nodeid)
-    id = random.randint(4000, 100000)
+    id = nodeid
     print("adding device", id)
     devicename = name + str(nodeid)
     device = Device(id, devicename, type, nodeid)

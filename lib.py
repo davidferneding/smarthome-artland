@@ -1,7 +1,7 @@
 import subprocess
 import re
 
-lumen = []
+lumen = [1,70,150,254]
 position = 0
 
 def pairLamp(id: int):
