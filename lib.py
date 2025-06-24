@@ -1,8 +1,7 @@
 import os
 import re
 
-lumen = [1,70,150,254]
-position = 0
+brightnessLevels = [1,70,150,254]
 
 def pairLight(id: int):
     os.system(f'chip-tool pairing ble-wifi {id} AMC_Mitarbeiter 837fh37#Zu47+ 33374968 2661 --paa-trust-store-path ~/matter/connectedhomeip/credentials/production/paa-root-certs/')
@@ -13,13 +12,8 @@ def pairPlug(id: int):
 def toggle(id: int):
     os.system(f'chip-tool onoff toggle {id} 1')
 
-def changeBrightness(id: int, shouldbehigher: bool):
-    if shouldbehigher:
-        position = +1
-        os.system(f'chip-tool levelcontrol move-to-level {lumen[position]} 10 0 0 {id} 1')
-    else:
-        position = -1
-        os.system(f'chip-tool levelcontrol move-to-level {lumen[position]} 10 0 0 {id} 1')
+def changeBrightness(id: int, level: int):
+    os.system(f'chip-tool levelcontrol move-to-level {brightnessLevels[level]} 0 0 0 {id} 1')
 
 def changeColor(id: int, hex: str):
         match = re.search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', hex)

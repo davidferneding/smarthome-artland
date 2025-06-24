@@ -82,7 +82,7 @@ function renderDevices() {
     
                 <div class="slider-container">
                     <label for="brightness-${device.id}">Helligkeit:</label>
-                    <input type="range" id="brightness-${device.id}" min="0" max="100" value="${device.brightness}" onchange="setBrightness('${device.id}', this.value); updateSliderUI(this)">
+                    <input type="range" id="brightness-${device.id}" min="0" max="3" value="${device.brightness}" onchange="setBrightness('${device.id}', this.value); updateSliderUI(this)">
                     <span class="percentage">${device.brightness}%</span>
                 </div>
                 <div class="color-picker-container">
@@ -139,12 +139,12 @@ async function setBrightness(deviceId, brightness) {
         device.brightness = brightness;
 
         try {
-            const res = await fetch(baseUrl + `change-brightness?id=${deviceId}&targetbrightness=${brightness}`, {
+            const res = await fetch(baseUrl + `change-brightness?id=${deviceId}&brightnesslevel=${brightness}`, {
                 method: "POST"
             });
 
             if (!res.ok) throw new Error();
-            console.log(`${device.name} Helligkeit wurde auf ${brightness}% gesetzt.`);
+            console.log(`${device.name} Helligkeit wurde auf Stufe ${brightness} gesetzt.`);
         } catch (error) {
             alert(`Fehler beim Aktualisieren der Helligkeit für ${device.name}`);
         }

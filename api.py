@@ -18,7 +18,7 @@ class DeviceStatus(Enum):
 
 
 class Device:
-    def __init__(self, id, name, type, nodeid, status = DeviceStatus.on, brightness = 100,color = "#da1195"):
+    def __init__(self, id, name, type, nodeid, status = DeviceStatus.on, brightness = 3,color = "#da1195"):
         self.id = id
         self.name = name
         self.type = type
@@ -78,10 +78,10 @@ def changeName(id, targetname):
     return device
 
 @app.post("/change-brightness")
-def changeBrightness(id, targetbrightness):
+def changeBrightness(id, brightnesslevel):
     device = devicelist[id]
-    lib.changeBrightness(device.nodeid, targetbrightness > 100)
-    device.brightness = targetbrightness
+    lib.changeBrightness(device.nodeid, brightnesslevel)
+    device.brightness = brightnesslevel
     return device
 
 @app.delete("/delete-device")
