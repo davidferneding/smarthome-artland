@@ -10,9 +10,17 @@ def pairSocket(id: int):
 def toggle(id: int):
     subprocess.Popen(f'chip-tool onoff toggle {id} 1')
 
-def changeBrightness(id: int, brightness: int):
-    if brightness > 0 & brightness <= 255:
-        subprocess.Popen(f'chip-tool levelcontrol move-to-level {brightness} 0 0 0 {id} 1')
+def changeBrightness(id: int, shouldbehigher: bool):
+
+    lumen = [1,]
+    index = 0
+    if shouldbehigher:
+        index = +1
+        subprocess.Popen(f'chip-tool levelcontrol move-to-level {lumen[index]} 10 0 0 {id} 1')
+    else:
+        index = -1
+        subprocess.Popen(f'chip-tool levelcontrol move-to-level {lumen[index]} 10 0 0 {id} 1')
+
 
 def changeColor(id: int, hex: str):
         match = re.search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', hex)
