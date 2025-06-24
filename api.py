@@ -1,6 +1,7 @@
-from fastapi import FastAPI , HTTPException
-from enum import Enum
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
+from enum import Enum
 import uuid
 import lib
 import random
@@ -28,14 +29,16 @@ class Device:
         self.nodeid = nodeid
         
 
-app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+middleware = [
+        Middleware(
+            CORSMiddleware,
+            allow_origins=["*"],
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"]
+        )
+    ]
+app = FastAPI(middleware=middleware)
 
 @app.post("/add-device")
 def addDevice(name, type: DeviceType, nodeid: int | None = None):
