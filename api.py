@@ -40,11 +40,16 @@ app.add_middleware(
 @app.post("/add-device")
 def adddevice(name, type: DeviceType, nodeid: int | None = None):
     if nodeid is None:
-       nodeid = random.randint(1, 4000)
-    #    lib.pairLamp(nodeid)
+        nodeid = random.randint(1, 4000)
+        if type == DeviceType.light:
+            lib.pairLamp(nodeid)
+        elif type == DeviceType.plug:
+            lib.pairPlug(nodeid)
+        else:
+            raise HTTPException(status_code=400, detail="DeviceType not supported") 
     id = str(uuid.uuid4())
     device = Device(id, name, type, nodeid)
-    devicelist.setdefault(id,device)
+    devicelist.setdefault(id, device)
     return device
 
 @app.get("/get-devices")
@@ -54,6 +59,7 @@ def getdevices():
 @app.post("/change-status")
 def changeStatus(id, targetstatus: DeviceStatus):
     device = devicelist[id]
+    lib.toggle(device.nodeid)
     device.status = targetstatus
     return device
 
@@ -61,7 +67,7 @@ def changeStatus(id, targetstatus: DeviceStatus):
 def changeColor(id,color):
     device = devicelist[id]
     print("change color ", id)
-    # lib.changeColor(id,color)
+    lib.changeColor(device.nodeid, color)
     device.color = color
     return device
 
@@ -74,6 +80,7 @@ def changeName(id, targetname):
 @app.post("/change-brightness")
 def changeBrightness(id, targetbrightness):
     device = devicelist[id]
+    lib.changeBrightness(device.nodeid, targetbrightness > 100)
     device.brightness = targetbrightness
     return device
 

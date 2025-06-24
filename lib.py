@@ -1,27 +1,25 @@
-import subprocess
+import os
 import re
 
 lumen = [1,70,150,254]
 position = 0
 
-def pairLamp(id: int):
-    subprocess.Popen(f'chip-tool pairing ble-wifi {id} AMC_Mitarbeiter 837fh37#Zu47+ 33374968 2661 --paa-trust-store-path ~/matter/connectedhomeip/credentials/production/paa-root-certs/')
+def pairLight(id: int):
+    os.system(f'chip-tool pairing ble-wifi {id} AMC_Mitarbeiter 837fh37#Zu47+ 33374968 2661 --paa-trust-store-path ~/matter/connectedhomeip/credentials/production/paa-root-certs/')
 
-def pairSocket(id: int):
-    subprocess.Popen(f'chip-tool pairing ble-wifi {id} AMC_Mitarbeiter 837fh37#Zu47+ 40527157 200 --paa-trust-store-path ~/matter/connectedhomeip/credentials/production/paa-root-certs/')
+def pairPlug(id: int):
+    os.system(f'chip-tool pairing ble-wifi {id} AMC_Mitarbeiter 837fh37#Zu47+ 40527157 200 --paa-trust-store-path ~/matter/connectedhomeip/credentials/production/paa-root-certs/')
 
 def toggle(id: int):
-    subprocess.Popen(f'chip-tool onoff toggle {id} 1')
+    os.system(f'chip-tool onoff toggle {id} 1')
 
 def changeBrightness(id: int, shouldbehigher: bool):
-
     if shouldbehigher:
         position = +1
-        subprocess.Popen(f'chip-tool levelcontrol move-to-level {lumen[position]} 10 0 0 {id} 1')
+        os.system(f'chip-tool levelcontrol move-to-level {lumen[position]} 10 0 0 {id} 1')
     else:
         position = -1
-        subprocess.Popen(f'chip-tool levelcontrol move-to-level {lumen[position]} 10 0 0 {id} 1')
-
+        os.system(f'chip-tool levelcontrol move-to-level {lumen[position]} 10 0 0 {id} 1')
 
 def changeColor(id: int, hex: str):
         match = re.search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', hex)
@@ -53,4 +51,4 @@ def changeColor(id: int, hex: str):
 
             hue = round(hs[0] / 360 * 254)
             saturation = round(hs[1] / 100 * 254)
-            subprocess.Popen(f'chip-tool colorcontrol move-to-hue-and-saturation {hue} {saturation} 0 0 0 {id} 1')
+            os.system(f'chip-tool colorcontrol move-to-hue-and-saturation {hue} {saturation} 0 0 0 {id} 1')
