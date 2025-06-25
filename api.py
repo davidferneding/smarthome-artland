@@ -1,5 +1,4 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 from enum import Enum
 import uuid
@@ -29,23 +28,14 @@ class Device:
         self.nodeid = nodeid
         
 
-middleware = [
-        Middleware(
-            CORSMiddleware,
-            allow_origins=["*"],
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"]
-        )
-    ]
-app = FastAPI(middleware=middleware)
+app = FastAPI()
 
 @app.post("/add-device")
 def addDevice(name, type: DeviceType, nodeid: int | None = None):
     if nodeid is None:
         nodeid = random.randint(1, 4000)
         if type == DeviceType.light:
-            lib.pairLamp(nodeid)
+            lib.pairLight(nodeid)
         elif type == DeviceType.plug:
             lib.pairPlug(nodeid)
         else:
@@ -81,7 +71,7 @@ def changeName(id, targetname):
     return device
 
 @app.post("/change-brightness")
-def changeBrightness(id, brightnesslevel):
+def changeBrightness(id, brightnesslevel: int):
     device = devicelist[id]
     lib.changeBrightness(device.nodeid, brightnesslevel)
     device.brightness = brightnesslevel
@@ -91,3 +81,12 @@ def changeBrightness(id, brightnesslevel):
 def deleteDevice(id):
     if id in devicelist:
         del devicelist[id]
+
+
+app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"],
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"]
+        )

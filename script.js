@@ -1,4 +1,4 @@
-const baseUrl = "http://127.0.0.1:8000/";
+const baseUrl = "http://smarthome.local:8000/";
 let deviceList = [];
 const devicesDiv = document.getElementById('devices');
 
@@ -8,7 +8,6 @@ async function addDevice() {
     const name = nameInput.value.trim();
     const type = typeSelect.value;
     if (name) {
-
     const response = await fetch(baseUrl + "add-device?" + "name=" + nameInput.value + "&type=" + typeSelect.value, {
         method: "POST"
     });
