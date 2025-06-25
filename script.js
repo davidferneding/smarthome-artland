@@ -2,13 +2,21 @@ const baseUrl = "http://smarthome.local:8000/";
 let deviceList = [];
 const devicesDiv = document.getElementById('devices');
 
+getDevices();
+
 async function addDevice() {
     const nameInput = document.getElementById('device-name');
     const typeSelect = document.getElementById('device-type');
+    const nodeIdToggle = document.getElementById('toggleNodeId');
     const name = nameInput.value.trim();
     const type = typeSelect.value;
     if (name) {
-        const response = await fetch(baseUrl + "add-device?" + "name=" + nameInput.value + "&type=" + typeSelect.value, {
+        let query = "?name=" + name + "&type=" + type;
+        if (nodeIdToggle.checked) {
+            const nodeIdInput = document.getElementById('nodeid');
+            query += "&nodeid=" + nodeIdInput.value;
+        }
+        const response = await fetch(baseUrl + "add-device" + query, {
             method: "POST"
         });
 
