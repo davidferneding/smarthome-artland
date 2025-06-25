@@ -8,14 +8,14 @@ async function addDevice() {
     const name = nameInput.value.trim();
     const type = typeSelect.value;
     if (name) {
-    const response = await fetch(baseUrl + "add-device?" + "name=" + nameInput.value + "&type=" + typeSelect.value, {
-        method: "POST"
-    });
-         
-    const data  = await response.json();
+        const response = await fetch(baseUrl + "add-device?" + "name=" + nameInput.value + "&type=" + typeSelect.value, {
+            method: "POST"
+        });
+
+        const data = await response.json();
 
         const newDevice = {
-            id: data.id,        
+            id: data.id,
             name: name,
             type: type,
             isOn: false,
@@ -52,17 +52,17 @@ async function getDevices() {
     renderDevices();
 }
 
-document.getElementById('toggleNodeId').addEventListener('change', 
-    function () {
+document.getElementById('toggleNodeId').addEventListener('change',
+    function() {
         const aktiv = this.checked;
         const element = document.getElementById('nodeid');
 
         if (aktiv) {
             element.style.display = 'block';
-         } else {
-         element.style.display = 'none';
+        } else {
+            element.style.display = 'none';
         }
-});
+    });
 
 function renderDevices() {
     devicesDiv.innerHTML = '';
@@ -184,7 +184,7 @@ async function setColor(deviceId, color) {
         }).catch(() => {
             alert(`Fehler beim Ändern der Farbe von ${device.name}`);
         });
-        
+
         console.log(`${device.name} Farbe geändert zu ${color}`);
         renderDevices();
     }
@@ -260,7 +260,7 @@ function updateSliderUI(slider) {
     // Aktualisiere die Prozentanzeige
     const percentage = slider.nextElementSibling;
     percentage.textContent = slider.value + '%';
-    
+
     // Aktualisiere den Slider-Hintergrund
     const percent = slider.value + '%';
     slider.style.background = `linear-gradient(to right, #00ff00 0%, #00ff00 ${percent}, #000000 ${percent}, #000000 100%)`;
@@ -283,17 +283,17 @@ function updateColorPreview(colorInput) {
 document.addEventListener('DOMContentLoaded', function() {
     const container = document.getElementById('background-container');
     if (!container) return;
-    
+
     const containerWidth = window.innerWidth;
     const containerHeight = window.innerHeight;
     const rectangleCount = 5; // Reduziert von 12 auf 5
     const rectangles = [];
-    
+
     // Erstelle Rechtecke
     for (let i = 0; i < rectangleCount; i++) {
         createRectangle();
     }
-    
+
     function createRectangle() {
         // Zufällige Größe, Position und Geschwindigkeit
         const width = Math.random() * 150 + 50;
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const speedX = (Math.random() - 0.5) * 0.8; // Langsamere Geschwindigkeit
         const speedY = (Math.random() - 0.5) * 0.8; // Langsamere Geschwindigkeit
         const rotationSpeed = (Math.random() - 0.5) * 0.5; // Langsamere Rotation
-        
+
         // Erstelle DOM-Element
         const rectangle = document.createElement('div');
         rectangle.className = 'rectangle';
@@ -315,13 +315,13 @@ document.addEventListener('DOMContentLoaded', function() {
         rectangle.style.transform = `rotate(${angle}deg)`;
         rectangle.style.boxShadow = 'none'; // Schatten entfernt für bessere Performance
         rectangle.style.opacity = '0.5'; // Geringere Deckkraft
-        
+
         // Einfacherer Gradient für bessere Performance
         const gradientAngle = Math.floor(Math.random() * 360);
         rectangle.style.background = `linear-gradient(${gradientAngle}deg, rgba(30,30,30,0.1) 0%, rgba(255,255,255,0.5) 100%)`;
-        
+
         container.appendChild(rectangle);
-        
+
         // Speichere Rechteck-Daten
         rectangles.push({
             element: rectangle,
@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
             rotationSpeed: rotationSpeed
         });
     }
-    
+
     // Performance-optimierte Animation
     let lastTime = 0;
     function animate(currentTime) {
@@ -342,20 +342,20 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => requestAnimationFrame(animate), 1000);
             return;
         }
-        
+
         // Frame-Begrenzung (max. 30 FPS für bessere Performance)
         if (currentTime - lastTime < 33) { // ~30 FPS
             requestAnimationFrame(animate);
             return;
         }
         lastTime = currentTime;
-        
+
         rectangles.forEach(rect => {
             // Aktualisiere Position
             rect.x += rect.speedX;
             rect.y += rect.speedY;
             rect.angle += rect.rotationSpeed;
-            
+
             // Prüfe Kollision mit den Rändern
             if (rect.x < -150 || rect.x > containerWidth) {
                 rect.speedX *= -1;
@@ -363,15 +363,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (rect.y < -150 || rect.y > containerHeight) {
                 rect.speedY *= -1;
             }
-            
+
             // Aktualisiere DOM-Element
             rect.element.style.left = `${rect.x}px`;
             rect.element.style.top = `${rect.y}px`;
             rect.element.style.transform = `rotate(${rect.angle}deg)`;
         });
-        
+
         requestAnimationFrame(animate);
     }
-    
+
     requestAnimationFrame(animate);
 });

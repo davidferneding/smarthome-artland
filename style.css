@@ -2,7 +2,8 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     background: linear-gradient(to right, #000000, #2a2a2a);
-    color: #ffffff; /* Weiß */
+    color: #ffffff;
+    /* Weiß */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,7 +20,8 @@ body {
 }
 
 header h1 {
-    color: #ffffff; /* war blau is jetzt weiß */
+    color: #ffffff;
+    /* war blau is jetzt weiß */
     text-align: center;
     margin-bottom: 30px;
     font-size: 3.5em;
@@ -31,7 +33,7 @@ section {
     background: linear-gradient(to right, #000000, #2a2a2a);
     border-radius: 15px;
     box-shadow: 0 1px 20px rgba(255, 255, 255, 0.784);
-    
+
 
 }
 
@@ -55,8 +57,8 @@ section h2 {
 }
 
 .cb-container {
-  cursor: pointer;
-  max-width: 170px;
+    cursor: pointer;
+    max-width: 170px;
 }
 
 select {
@@ -71,7 +73,9 @@ select {
     font-size: 1em;
 }
 
-input[type="text"], input[type="number"], input[type="slider"]  {
+input[type="text"],
+input[type="number"],
+input[type="slider"] {
     padding: 15px;
     border: 1px solid #000000;
     border-radius: 5px;
@@ -85,12 +89,10 @@ input[type="text"], input[type="number"], input[type="slider"]  {
 
 input[type="color"] {
     padding: 15px;
-    border:10px solid #000000;
+    border: 10px solid #000000;
     border-radius: 5px;
-    background-color:#000000;
+    background-color: #000000;
     width: calc(40% - 22px)
-
-
 }
 
 button {
@@ -106,9 +108,9 @@ button {
     transition: all 0.3s ease-in-out;
     cursor: pointer;
     margin: 10px;
-  }
-  
-  .star-1 {
+}
+
+.star-1 {
     position: absolute;
     top: 20%;
     left: 20%;
@@ -117,9 +119,9 @@ button {
     filter: drop-shadow(0 0 0 #fffdef);
     z-index: -5;
     transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96);
-  }
-  
-  .star-2 {
+}
+
+.star-2 {
     position: absolute;
     top: 45%;
     left: 45%;
@@ -128,9 +130,9 @@ button {
     filter: drop-shadow(0 0 0 #fffdef);
     z-index: -5;
     transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
-  }
-  
-  .star-3 {
+}
+
+.star-3 {
     position: absolute;
     top: 40%;
     left: 40%;
@@ -139,9 +141,9 @@ button {
     filter: drop-shadow(0 0 0 #fffdef);
     z-index: -5;
     transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
-  }
-  
-  .star-4 {
+}
+
+.star-4 {
     position: absolute;
     top: 20%;
     left: 40%;
@@ -150,9 +152,9 @@ button {
     filter: drop-shadow(0 0 0 #fffdef);
     z-index: -5;
     transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01);
-  }
-  
-  .star-5 {
+}
+
+.star-5 {
     position: absolute;
     top: 25%;
     left: 45%;
@@ -161,9 +163,9 @@ button {
     filter: drop-shadow(0 0 0 #fffdef);
     z-index: -5;
     transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01);
-  }
-  
-  .star-6 {
+}
+
+.star-6 {
     position: absolute;
     top: 5%;
     left: 50%;
@@ -172,15 +174,15 @@ button {
     filter: drop-shadow(0 0 0 #fffdef);
     z-index: -5;
     transition: all 0.8s ease;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background: transparent;
     color: #00ff00;
     box-shadow: 0 0 25px #00ff0062;
-  }
-  
-  button:hover .star-1 {
+}
+
+button:hover .star-1 {
     position: absolute;
     top: -80%;
     left: -30%;
@@ -188,9 +190,9 @@ button {
     height: auto;
     filter: drop-shadow(0 0 10px #fffdef);
     z-index: 2;
-  }
-  
-  button:hover .star-2 {
+}
+
+button:hover .star-2 {
     position: absolute;
     top: -25%;
     left: 10%;
@@ -198,9 +200,9 @@ button {
     height: auto;
     filter: drop-shadow(0 0 10px #fffdef);
     z-index: 2;
-  }
-  
-  button:hover .star-3 {
+}
+
+button:hover .star-3 {
     position: absolute;
     top: 55%;
     left: 25%;
@@ -208,9 +210,9 @@ button {
     height: auto;
     filter: drop-shadow(0 0 10px #fffdef);
     z-index: 2;
-  }
-  
-  button:hover .star-4 {
+}
+
+button:hover .star-4 {
     position: absolute;
     top: 30%;
     left: 80%;
@@ -218,9 +220,9 @@ button {
     height: auto;
     filter: drop-shadow(0 0 10px #fffdef);
     z-index: 2;
-  }
-  
-  button:hover .star-5 {
+}
+
+button:hover .star-5 {
     position: absolute;
     top: 25%;
     left: 115%;
@@ -228,9 +230,9 @@ button {
     height: auto;
     filter: drop-shadow(0 0 10px #fffdef);
     z-index: 2;
-  }
-  
-  button:hover .star-6 {
+}
+
+button:hover .star-6 {
     position: absolute;
     top: 5%;
     left: 60%;
@@ -238,12 +240,12 @@ button {
     height: auto;
     filter: drop-shadow(0 0 10px #fffdef);
     z-index: 2;
-  }
-  
-  .fil0 {
+}
+
+.fil0 {
     fill: #fffdef;
-  }
-  
+}
+
 
 .device-control {
     background-color: #000000;
@@ -269,9 +271,9 @@ button {
 
 
 .light-controls input[type="slider"] {
-  width: calc(100% - 22px);
-  vertical-align: middle;
-  appearance: none;
+    width: calc(100% - 22px);
+    vertical-align: middle;
+    appearance: none;
 }
 
 
@@ -297,102 +299,102 @@ button {
 }
 
 .timer-running {
-    color: #ff0000; 
+    color: #ff0000;
     font-style: italic;
     display: block;
     margin-top: 5px;
 }
 
 .slider-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
 input[type="range"] {
-  -webkit-appearance: none;
-  width: calc(100% - 180px);
-  height: 10px;
-  border-radius: 5px;
-  margin-top: 15px;
-  background: linear-gradient(to right, #00ff00 0%, #00ff00 50%, #000000 50%, #000000 100%);
-  outline: none;
-  margin-right: 10px;
+    -webkit-appearance: none;
+    width: calc(100% - 180px);
+    height: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+    background: linear-gradient(to right, #00ff00 0%, #00ff00 50%, #000000 50%, #000000 100%);
+    outline: none;
+    margin-right: 10px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #00ff00;
-  cursor: pointer;
-  border: 2px solid #000000;
-  box-shadow: 0 0 5px #000000;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #00ff00;
+    cursor: pointer;
+    border: 2px solid #000000;
+    box-shadow: 0 0 5px #000000;
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #ffffff;
-  cursor: pointer;
-  border: 2px solid #ffffff;
-  box-shadow: 0 0 5px #000000;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 5px #000000;
 }
 
 .percentage {
-  display: inline-block;
-  width: 50px;
-  font-weight: bold;
-  color: #ffffff;
-  text-align: center;
+    display: inline-block;
+    width: 50px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
 }
 
 /* Color Picker Container */
 .color-picker-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
 
 /* Color Input */
 input[type="color"] {
-  -webkit-appearance: none;
-  width: 60px;
-  height: 30px;
-  border: none;
-  border-radius: 5px;
-  background: none;
-  cursor: pointer;
-  padding: 0;
+    -webkit-appearance: none;
+    width: 60px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background: none;
+    cursor: pointer;
+    padding: 0;
 }
 
 input[type="color"]::-webkit-color-swatch-wrapper {
-  padding: 0;
+    padding: 0;
 }
 
 input[type="color"]::-webkit-color-swatch {
-  border: 2px solid #000000;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    border: 2px solid #000000;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 
 select {
-  -webkit-appearance: none;
-  width: calc(100% - 22px);
-  height: 30px;
-  border: none;
-  border-radius: 5px;
-  background: color(#0000 red green blue);
-  cursor: pointer;
-  padding: 0;
+    -webkit-appearance: none;
+    width: calc(100% - 22px);
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background: color(#0000 red green blue);
+    cursor: pointer;
+    padding: 0;
 }
 
-.delete{ 
+.delete {
     display: flex;
     align-items: center;
     background: #000000;
@@ -414,27 +416,29 @@ select {
 
 /* Animierter Hintergrund */
 body {
-  position: relative;
-  /* Vorhandene body-Stile beibehalten, aber diese hinzufügen: */
-  overflow-x: hidden;
+    position: relative;
+    /* Vorhandene body-Stile beibehalten, aber diese hinzufügen: */
+    overflow-x: hidden;
 }
 
 .background-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1; /* Hinter allem anderen */
-  background-color: #000000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    /* Hinter allem anderen */
+    background-color: #000000;
 }
 
 .rectangle {
-  position: absolute;
-  border-radius: 4px;
-  transform-origin: center;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.8) 100%);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-  opacity: 0.6;
-  pointer-events: none; /* Damit die Rechtecke keine Klicks abfangen */
+    position: absolute;
+    border-radius: 4px;
+    transform-origin: center;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.8) 100%);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    opacity: 0.6;
+    pointer-events: none;
+    /* Damit die Rechtecke keine Klicks abfangen */
 }

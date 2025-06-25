@@ -5,11 +5,13 @@ import uuid
 import lib
 import random
 
-devicelist={}
+devicelist = {}
+
 
 class DeviceType(Enum):
     light = "light"
     plug = "plug"
+
 
 class DeviceStatus(Enum):
     on = "on"
@@ -18,7 +20,7 @@ class DeviceStatus(Enum):
 
 
 class Device:
-    def __init__(self, id, name, type, nodeid, status = DeviceStatus.on, brightness = 3,color = "#da1195"):
+    def __init__(self, id, name, type, nodeid, status=DeviceStatus.on, brightness=3, color="#da1195"):
         self.id = id
         self.name = name
         self.type = type
@@ -26,9 +28,10 @@ class Device:
         self.brightness = brightness
         self.color = color
         self.nodeid = nodeid
-        
+
 
 app = FastAPI()
+
 
 @app.post("/add-device")
 def addDevice(name, type: DeviceType, nodeid: int | None = None):
@@ -39,15 +42,18 @@ def addDevice(name, type: DeviceType, nodeid: int | None = None):
         elif type == DeviceType.plug:
             lib.pairPlug(nodeid)
         else:
-            raise HTTPException(status_code=400, detail="DeviceType not supported") 
+            raise HTTPException(
+                status_code=400, detail="DeviceType not supported")
     id = str(uuid.uuid4())
     device = Device(id, name, type, nodeid)
     devicelist.setdefault(id, device)
     return device
 
+
 @app.get("/get-devices")
 def getDevices():
     return {"devices": [device.__dict__ for device in devicelist.values()]}
+
 
 @app.post("/toggle")
 def toggle(id):
@@ -55,6 +61,7 @@ def toggle(id):
     lib.toggle(device.nodeid)
     device.status = DeviceStatus.on
     return device
+
 
 @app.post("/change-color")
 def changeColor(id, color):
@@ -64,11 +71,13 @@ def changeColor(id, color):
     device.color = color
     return device
 
+
 @app.post("/change-name")
 def changeName(id, targetname):
     device = devicelist[id]
     device.name = targetname
     return device
+
 
 @app.post("/change-brightness")
 def changeBrightness(id, brightnesslevel: int):
@@ -77,6 +86,7 @@ def changeBrightness(id, brightnesslevel: int):
     device.brightness = brightnesslevel
     return device
 
+
 @app.delete("/delete-device")
 def deleteDevice(id):
     if id in devicelist:
@@ -84,9 +94,9 @@ def deleteDevice(id):
 
 
 app.add_middleware(
-            CORSMiddleware,
-            allow_origins=["*"],
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"]
-        )
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
