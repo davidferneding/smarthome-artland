@@ -5,15 +5,11 @@ brightnessLevels = [1, 70, 150, 254]
 
 
 def pairLight(id: int):
-    os.system(f'chip-tool pairing ble-wifi {
-              # Zu47+ 33374968 2661 --paa-trust-store-path ~/matter/connectedhomeip/credentials/production/paa-root-certs/')
-              id} AMC_Mitarbeiter 837fh37
-
+    os.system(f'chip-tool pairing ble-wifi {id} AMC_Mitarbeiter 837fh37#Zu47+ 33374968 2661 --paa-trust-store-path ~/matter/connectedhomeip/credentials/production/paa-root-certs/')
+              
 
 def pairPlug(id: int):
-    os.system(f'chip-tool pairing ble-wifi {
-              #Zu47+ 40527157 200 --paa-trust-store-path ~/matter/connectedhomeip/credentials/production/paa-root-certs/')
-              id} AMC_Mitarbeiter 837fh37
+    os.system(f'chip-tool pairing ble-wifi {id} AMC_Mitarbeiter 837fh37#Zu47+ 40527157 200 --paa-trust-store-path ~/matter/connectedhomeip/credentials/production/paa-root-certs/')
 
 
 def toggle(id: int):
@@ -21,8 +17,7 @@ def toggle(id: int):
 
 
 def changeBrightness(id: int, level: int):
-    os.system(
-        f'chip-tool levelcontrol move-to-level {brightnessLevels[level]} 0 0 0 {id} 1')
+    os.system(f'chip-tool levelcontrol move-to-level {brightnessLevels[level]} 0 0 0 {id} 1')
 
 
 def changeColor(id: int, hex: str):
@@ -57,5 +52,4 @@ def changeColor(id: int, hex: str):
 
         hue = round(hs[0] / 360 * 254)
         saturation = round(hs[1] / 100 * 254)
-        os.system(
-            f'chip-tool colorcontrol move-to-hue-and-saturation {hue} {saturation} 0 0 0 {id} 1')
+        os.system(f'chip-tool colorcontrol move-to-hue-and-saturation {hue} {saturation} 0 0 0 {id} 1')

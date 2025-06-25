@@ -90,7 +90,7 @@ function renderDevices() {
                 <div class="slider-container">
                     <label for="brightness-${device.id}">Helligkeit:</label>
                     <input type="range" id="brightness-${device.id}" min="0" max="3" value="${device.brightness}" onchange="setBrightness('${device.id}', this.value); updateSliderUI(this)">
-                    <span class="percentage">${device.brightness}%</span>
+                    <span class="number">${device.brightness}</span>
                 </div>
                 <div class="color-picker-container">
                     <label for="color-${device.id}">Farbe:</label>
