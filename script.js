@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8000/";
+const baseUrl = "http://smarthome.local:8000/";
 let deviceList = [];
 const devicesDiv = document.getElementById('devices');
 
@@ -10,33 +10,50 @@ async function addDevice() {
     const nodeIdToggle = document.getElementById('toggleNodeId');
     const name = nameInput.value.trim();
     const type = typeSelect.value;
+    const addBtn = document.getElementById('add-button');
+
+    addBtn.classList.add('loading');
+    addBtn.disabled = true;
+
     if (name) {
         let query = `?name=${name}&type=${type}&status=off&brightness=1&color=%23ffffff`;
-        if (nodeIdToggle.checked) {
-            const nodeIdInput = document.getElementById('device-node-id');
-            query += "&nodeid=" + nodeIdInput.value;
+        if (nodeIdToggle.checked){
+            const ngIdInput = document.getElementById('device-node-id');
+            query += "&nodeid=" + encodeURIComponent(ngIdInput.value);
         }
-        const response = await fetch(baseUrl + "add-device" + query, {
-            method: "POST"
-        });
 
-        const data = await response.json();
+        try {
+            const response = await fetch(baseUrl + "add-device" + query, {
+                method: 'POST',
+            });
 
-        const newDevice = {
-            id: data.id,
-            name: data.name,
-            type: data.type,
-            isOn: data.status === "on",
-            brightness: data.brightness ?? 1,
-            color: data.color ?? "#ffffff",
-            timer: null,
-            timerDuration: 0
-        };
-        deviceList.push(newDevice);
-        renderDevices();
-        nameInput.value = '';
-    } else {
-        alert('Bitte gib einen Namen für das Gerät ein.');
+            const data = await response.json();
+
+            const newDevice = {
+                id: data.id,
+                name: data.name,
+                type: data.type,
+                isOn: data.status === 'on',
+                brightness: data.brightness ?? 1,
+                color: data.color ?? '#ffffff',
+                timer: null,
+                timerDuration: 0
+            };
+
+            deviceList.push(newDevice);
+            renderDevices();
+            nameInput.value = '';
+        } catch (error) {
+            console.error('Error adding device:', error);
+            alert("Ein Fehler ist aufgetreten! Bitte erneut versuchen");
+        } finally {
+            addBtn.classList.remove('loading');
+            addBtn.disabled = false;
+        }
+    }else{
+        alert("Bitte geben Sie einen Namen für das Gerät ein");
+        addBtn.classList.remove('loading');
+        addBtn.disabled = false;
     }
 }
 
@@ -84,7 +101,9 @@ function renderDevices() {
             lightControls.classList.add('light-controls');
             lightControls.innerHTML = `
                 <label>Status:</label>
-                <button onclick="toggleLight('${device.id}')">${device.isOn ? 'An' : 'Aus'}</button><br>
+                <button class="status-button" id="status-button" onclick="toggleLight('${device.id}')">${device.isOn ? 'An' : 'Aus'}
+                    <div class="spinner"></div>
+                </button><br>
 
     
                 <div class="slider-container">
@@ -130,6 +149,11 @@ function renderDevices() {
 
 async function toggleLight(deviceId) {
     const device = deviceList.find(d => d.id === deviceId);
+    const toggleBtn = document.getElementById("status-button");
+
+    toggleBtn.classList.add('loading');
+    toggleBtn.disabled = true;
+
     if (device) {
         await fetch(baseUrl + `toggle?id=${deviceId}`, {
             method: "POST"
@@ -137,6 +161,8 @@ async function toggleLight(deviceId) {
         device.isOn = !device.isOn;
         renderDevices();
         console.log(`${device.name} ist jetzt ${device.isOn ? 'an' : 'aus'}.`);
+        toggleBtn.classList.remove('loading');
+        toggleBtn.disabled = false;
     }
 }
 

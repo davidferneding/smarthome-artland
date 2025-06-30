@@ -448,3 +448,57 @@ body {
     pointer-events: none;
     /* Damit die Rechtecke keine Klicks abfangen */
 }
+/* Lade Spinner Add-Button */
+
+.add-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 3px solid black;
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    opacity: 0;
+}
+
+.add-button.loading .spinner {
+    opacity: 1;
+    display: block;
+}
+
+.status-button.loading .spinner {
+    opacity: 1;
+    display: block;
+}
+
+.status-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    color: transparent;
+}
+
+.add-button.loading .star-1,
+.add-button.loading .star-2,
+.add-button.loading .star-3,
+.add-button.loading .star-4,
+.add-button.loading .star-5,
+.add-button.loading .star-6 {
+    opacity: 0;
+}
+
+.add-button.loading {
+    color: transparent;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
