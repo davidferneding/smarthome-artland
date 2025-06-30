@@ -96,6 +96,15 @@ function renderDevices() {
         deviceDiv.classList.add('device-control');
         deviceDiv.innerHTML = `<h3>${device.name} (${device.type})</h3>`;
 
+        const renameControls = document.createElement('div');
+        renameControls.classList.add('rename-controls');
+        renameControls.innerHTML = `
+            <label for="rename-${device.id}">Name ändern:</label>
+            <input type="text" id="rename-${device.id}" placeholder="Neuer Name eingeben">
+            <button onclick="changeName('${device.id}', document.getElementById('rename-${device.id}').value)">Speichern</button>
+        `;
+        deviceDiv.appendChild(renameControls);
+
         if (device.type === 'light') {
             const lightControls = document.createElement('div');
             lightControls.classList.add('light-controls');
