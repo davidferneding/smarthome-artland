@@ -5,11 +5,11 @@ brightnessLevels = [1, 70, 150, 254]
 
 
 def pairLight(id: int):
-    os.system(f'chip-tool pairing ble-wifi {id} AMC_Mitarbeiter 837fh37#Zu47+ 33374968 2661 --paa-trust-store-path ~/matter/connectedhomeip/credentials/production/paa-root-certs/')
+    os.system(f'chip-tool pairing ble-wifi {id} AMC_Mitarbeiter 837fh37#Zu47+ 33374968 2661 --paa-trust-store-path ~/connectedhomeip/credentials/production/paa-root-certs/')
               
 
 def pairPlug(id: int):
-    os.system(f'chip-tool pairing ble-wifi {id} AMC_Mitarbeiter 837fh37#Zu47+ 40527157 200 --paa-trust-store-path ~/matter/connectedhomeip/credentials/production/paa-root-certs/')
+    os.system(f'chip-tool pairing ble-wifi {id} AMC_Mitarbeiter 837fh37#Zu47+ 40527157 200 --paa-trust-store-path ~/connectedhomeip/credentials/production/paa-root-certs/')
 
 
 def toggle(id: int):

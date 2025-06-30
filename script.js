@@ -13,7 +13,7 @@ async function addDevice() {
     if (name) {
         let query = "?name=" + name + "&type=" + type;
         if (nodeIdToggle.checked) {
-            const nodeIdInput = document.getElementById('nodeid');
+            const nodeIdInput = document.getElementById('device-node-id');
             query += "&nodeid=" + nodeIdInput.value;
         }
         const response = await fetch(baseUrl + "add-device" + query, {
