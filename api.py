@@ -34,7 +34,7 @@ app = FastAPI()
 
 
 @app.post("/add-device")
-def addDevice(name, type: DeviceType, nodeid: int | None = None):
+def addDevice(name, type: DeviceType, nodeid: int | None = None, status: DeviceStatus = DeviceStatus.off, brightness: int = 1, color: str = "#ffffff"):
     if nodeid is None:
         nodeid = random.randint(1, 4000)
         if type == DeviceType.light:
@@ -42,12 +42,13 @@ def addDevice(name, type: DeviceType, nodeid: int | None = None):
         elif type == DeviceType.plug:
             lib.pairPlug(nodeid)
         else:
-            raise HTTPException(
-                status_code=400, detail="DeviceType not supported")
+            raise HTTPException(status_code=400, detail="DeviceType not supported")
+
     id = str(uuid.uuid4())
-    device = Device(id, name, type, nodeid)
-    devicelist.setdefault(id, device)
+    device = Device(id, name, type, nodeid, status, brightness, color)
+    devicelist[id] = device
     return device
+
 
 
 @app.get("/get-devices")
@@ -59,7 +60,12 @@ def getDevices():
 def toggle(id):
     device = devicelist[id]
     lib.toggle(device.nodeid)
-    device.status = DeviceStatus.on
+
+    if device.status == DeviceStatus.on:
+        device.status = DeviceStatus.off
+    else:
+        device.status = DeviceStatus.on
+
     return device
 
 

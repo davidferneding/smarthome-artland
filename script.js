@@ -1,4 +1,4 @@
-const baseUrl = "http://smarthome.local:8000/";
+const baseUrl = "http://localhost:8000/";
 let deviceList = [];
 const devicesDiv = document.getElementById('devices');
 
@@ -11,7 +11,7 @@ async function addDevice() {
     const name = nameInput.value.trim();
     const type = typeSelect.value;
     if (name) {
-        let query = "?name=" + name + "&type=" + type;
+        let query = `?name=${name}&type=${type}&status=off&brightness=1&color=%23ffffff`;
         if (nodeIdToggle.checked) {
             const nodeIdInput = document.getElementById('device-node-id');
             query += "&nodeid=" + nodeIdInput.value;
@@ -24,11 +24,11 @@ async function addDevice() {
 
         const newDevice = {
             id: data.id,
-            name: name,
-            type: type,
-            isOn: false,
-            brightness: 50,
-            color: '#ffffff',
+            name: data.name,
+            type: data.type,
+            isOn: data.status === "on",
+            brightness: data.brightness ?? 1,
+            color: data.color ?? "#ffffff",
             timer: null,
             timerDuration: 0
         };
@@ -50,7 +50,7 @@ async function getDevices() {
             name: device.name,
             type: device.type,
             isOn: device.status === "on",
-            brightness: device.brightness ?? 50,
+            brightness: device.brightness ?? 1,
             color: '#ffffff',
             timer: null,
             timerDuration: 0
@@ -89,8 +89,8 @@ function renderDevices() {
     
                 <div class="slider-container">
                     <label for="brightness-${device.id}">Helligkeit:</label>
-                    <input type="range" id="brightness-${device.id}" min="0" max="3" value="${device.brightness}" onchange="setBrightness('${device.id}', this.value); updateSliderUI(this)">
-                    <span class="number">${device.brightness}</span>
+                    <input type="range" min="1" max="4" value="${device.brightness + 1}" onchange="setBrightness('${device.id}', this.value - 1); updateSliderUI(this)">
+                    <span class="number">${device.brightness + 1}</span>
                 </div>
                 <div class="color-picker-container">
                     <label for="color-${device.id}">Farbe:</label>
@@ -209,12 +209,17 @@ function startTimer(deviceId) {
     const device = deviceList.find(d => d.id === deviceId);
     if (device && device.isOn && device.timerDuration > 0 && !device.timer) {
         const milliseconds = device.timerDuration * 60 * 1000;
-        device.timer = setTimeout(() => {
-            device.isOn = false;
-            device.timer = null;
-            device.timerDuration = 0;
-            renderDevices();
-            console.log(`${device.name} wurde nach ${device.timerDuration} Minuten ausgeschaltet.`);
+        device.timer = setTimeout(async () => {
+            try {
+                await fetch(baseUrl + `toggle?id=${deviceId}`, { method: "POST" });
+                device.isOn = false;
+                device.timer = null;
+                device.timerDuration = 0;
+                renderDevices();
+                console.log(`${device.name} wurde per Timer ausgeschaltet.`);
+            } catch {
+                alert(`Fehler beim automatischen Ausschalten von ${device.name}`);
+            }
         }, milliseconds);
         renderDevices();
         console.log(`${device.name} Timer für ${device.timerDuration} Minuten gestartet.`);
@@ -238,10 +243,21 @@ function cancelTimer(deviceId) {
     }
 }
 
-function simulateClick(deviceName) {
-    console.log(`${deviceName} hat geklickt!`);
+async function simulateClick(deviceId) {
+    const device = deviceList.find(d => d.id === deviceId);
+    if (device) {
+        try {
+            await fetch(baseUrl + `toggle?id=${deviceId}`, {
+                method: "POST"
+            });
+            device.isOn = !device.isOn;
+            renderDevices();
+            console.log(`${device.name} wurde getoggelt.`);
+        } catch {
+            alert(`Fehler beim Schalten von ${device.name}`);
+        }
+    }
 }
-
 
 async function deleteDevice(deviceId) {
     const index = deviceList.findIndex(d => d.id === deviceId);
@@ -265,14 +281,12 @@ async function deleteDevice(deviceId) {
 renderDevices();
 
 function updateSliderUI(slider) {
-    // Aktualisiere die Prozentanzeige
-    const percentage = slider.nextElementSibling;
-    percentage.textContent = slider.value + '%';
-
-    // Aktualisiere den Slider-Hintergrund
-    const percent = slider.value + '%';
-    slider.style.background = `linear-gradient(to right, #00ff00 0%, #00ff00 ${percent}, #000000 ${percent}, #000000 100%)`;
+    const value = slider.value;
+    const label = slider.nextElementSibling;
+    if (label) label.textContent = value;
+    slider.style.background = '#1e1e1e';
 }
+
 
 // Initialisiere alle vorhandenen Slider beim Laden
 document.addEventListener('DOMContentLoaded', function() {
