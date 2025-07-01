@@ -1,4 +1,4 @@
-const baseUrl = "http://smarthome.local:8000/";
+const baseUrl = "http://localhost:8000/";
 let deviceList = [];
 const devicesDiv = document.getElementById('devices');
 
@@ -94,13 +94,13 @@ function renderDevices() {
     deviceList.forEach(device => {
         const deviceDiv = document.createElement('div');
         deviceDiv.classList.add('device-control');
-        deviceDiv.innerHTML = `<h3>${device.name} (${device.type})</h3>`;
+        deviceDiv.innerHTML = `<input id="name" value="${device.name} (${device.type})" ></input>`;
 
         const renameControls = document.createElement('div');
         renameControls.classList.add('rename-controls');
         renameControls.innerHTML = `
             <label for="rename-${device.id}">Name ändern:</label>
-            <input type="text" id="rename-${device.id}" placeholder="Neuer Name eingeben">
+            <input type="text" id="rename-${device.id}" placeholder="Neuen Namen eingeben">
             <button class="name-btn" id="name-btn" onclick="changeName('${device.id}', document.getElementById('rename-${device.id}').value)">
                 <div class="spinner"></div>
             Speichern</button>
@@ -112,7 +112,7 @@ function renderDevices() {
             lightControls.classList.add('light-controls');
             lightControls.innerHTML = `
                 <label>Status:</label>
-                <button class="status-button" id="status-button" onclick="toggleLight('${device.id}')">${device.isOn ? 'An' : 'Aus'}
+                <button class="status-button" id="status-button" onclick="toggleLight('${device.id}')">Umschalten
                     <div class="spinner"></div>
                 </button><br>
 
@@ -143,7 +143,7 @@ function renderDevices() {
             const plugControls = document.createElement('div');
             plugControls.classList.add('plug-controls');
             plugControls.innerHTML = `
-                <button onclick="simulateClick('${device.id}')">Klicken</button>
+                <button onclick="simulateClick('${device.id}')">Umschalten</button>
 
                 </div>
                 <div class="delete-device">
