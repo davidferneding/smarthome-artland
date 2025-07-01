@@ -485,6 +485,17 @@ body {
     color: transparent;
 }
 
+.name-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    color: transparent;
+}
+
+.name-btn.loading .spinner {
+    opacity: 1;
+    display: block;
+} 
+
 .add-button.loading .star-1,
 .add-button.loading .star-2,
 .add-button.loading .star-3,

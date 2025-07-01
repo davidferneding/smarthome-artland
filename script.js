@@ -1,4 +1,4 @@
-const baseUrl = "http://smarthome.local:8000/";
+const baseUrl = "http://localhost:8000/";
 let deviceList = [];
 const devicesDiv = document.getElementById('devices');
 
@@ -101,7 +101,9 @@ function renderDevices() {
         renameControls.innerHTML = `
             <label for="rename-${device.id}">Name ändern:</label>
             <input type="text" id="rename-${device.id}" placeholder="Neuer Name eingeben">
-            <button onclick="changeName('${device.id}', document.getElementById('rename-${device.id}').value)">Speichern</button>
+            <button class="name-btn" id="name-btn" onclick="changeName('${device.id}', document.getElementById('rename-${device.id}').value)">
+                <div class="spinner"></div>
+            Speichern</button>
         `;
         deviceDiv.appendChild(renameControls);
 
@@ -197,6 +199,12 @@ async function setBrightness(deviceId, brightness) {
 
 async function changeName(deviceId, newName) {
     const device = deviceList.find(d => d.id === deviceId);
+    const nameBtn = document.getElementById("name-btn");
+
+    nameBtn.classList.add('loading');
+    nameBtn.disabled = true;
+
+
     if (device && newName.trim()) {
         const response = await fetch(`${baseUrl}change-name?id=${deviceId}&targetname=${encodeURIComponent(newName)}`, {
             method: "POST"
@@ -206,11 +214,17 @@ async function changeName(deviceId, newName) {
             device.name = newName;
             renderDevices();
             console.log(`Name des Geräts wurde zu "${newName}" geändert.`);
+            nameBtn.classList.remove('loading');
+            nameBtn.disabled = false;
         } else {
             alert("Fehler beim Ändern des Gerätenamens.");
+            nameBtn.classList.remove('loading');
+            nameBtn.disabled = false;
         }
     } else {
         alert("Ungültiger Name oder Gerät nicht gefunden.");
+        nameBtn.classList.remove('loading');
+        nameBtn.disabled = false;
     }
 }
 
