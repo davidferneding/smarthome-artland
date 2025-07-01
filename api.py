@@ -20,7 +20,7 @@ class DeviceStatus(Enum):
 
 
 class Device:
-    def __init__(self, id, name, type, nodeid, status=DeviceStatus.on, brightness=3, color="#da1195"):
+    def __init__(self, id, name, type, nodeid, status=DeviceStatus.on, brightness=3, color="#da1195", actionmode=0 ):
         self.id = id
         self.name = name
         self.type = type
@@ -28,6 +28,7 @@ class Device:
         self.brightness = brightness
         self.color = color
         self.nodeid = nodeid
+        self.actionmode = actionmode
 
 
 app = FastAPI()
@@ -98,6 +99,12 @@ def deleteDevice(id):
     if id in devicelist:
         del devicelist[id]
 
+@app.post("/change-actionmode")
+def changeActionMode(id, actionmode: int):
+    device = devicelist[id]
+    lib.changeActionMode(device.nodeid, actionmode)
+    device.actionmode = actionmode
+    return device
 
 app.add_middleware(
     CORSMiddleware,

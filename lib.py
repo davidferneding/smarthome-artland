@@ -19,6 +19,8 @@ def toggle(id: int):
 def changeBrightness(id: int, level: int):
     os.system(f'chip-tool levelcontrol move-to-level {brightnessLevels[level]} 0 0 0 {id} 1')
 
+def changeActionMode(id: int, mode: int):
+    os.system(f'chip-tool modeselect change-to-mode {mode} {id} 1')
 
 def changeColor(id: int, hex: str):
     match = re.search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', hex)

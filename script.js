@@ -10,8 +10,8 @@ async function addDevice() {
     const nodeIdToggle = document.getElementById('toggleNodeId');
     const name = nameInput.value.trim();
     const type = typeSelect.value;
+    const addBtn = document.getElementById('add-button');
 
-    const addBtn = document.getElementsByClassName('add-button')[0];
     addBtn.classList.add('loading');
     addBtn.disabled = true;
 
@@ -37,7 +37,8 @@ async function addDevice() {
                 brightness: data.brightness ?? 1,
                 color: data.color ?? '#ffffff',
                 timer: null,
-                timerDuration: 0
+                timerDuration: 0,
+                actionmode : 0
             };
 
             deviceList.push(newDevice);
@@ -122,6 +123,11 @@ function renderDevices() {
                     <input type="range" min="1" max="4" value="${device.brightness + 1}" onchange="setBrightness('${device.id}', this.value - 1); updateSliderUI(this)">
                     <span class="number">${device.brightness + 1}</span>
                 </div>
+                  <div class="slider-container">
+                    <label for="actionmode"-${device.id}">Modi:</label>
+                    <input type="range" min="0" max="10" value="${device.actionmode}" onchange="changeActionMode('${device.id}', this.value); updateSliderUI(this)">
+                    <span class="number">${device.actionmode}</span>
+                </div>
                 <div class="color-picker-container">
                     <label for="color-${device.id}">Farbe:</label>
                     <div class="color-preview" style="background-color: ${device.color}"></div>
@@ -191,6 +197,26 @@ async function setBrightness(deviceId, brightness) {
             console.log(`${device.name} Helligkeit wurde auf Stufe ${brightness} gesetzt.`);
         } catch (error) {
             alert(`Fehler beim Aktualisieren der Helligkeit für ${device.name}`);
+        }
+
+        renderDevices();
+    }
+}
+
+async function changeActionMode(deviceId, actionmode) {
+    const device = deviceList.find(d => d.id === deviceId);
+    if (device) {
+        device.actionmode = actionmode;
+
+        try {
+            const res = await fetch(baseUrl + `change-actionmode?id=${deviceId}&actionmode=${actionmode}`, {
+                method: "POST"
+            });
+
+            if (!res.ok) throw new Error();
+            console.log(`${device.name} Modus wurde auf Stufe ${actionmode} gesetzt.`);
+        } catch (error) {
+            alert(`Fehler beim Aktualisieren des Modus für ${device.name}`);
         }
 
         renderDevices();
