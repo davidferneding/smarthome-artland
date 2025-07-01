@@ -10,8 +10,8 @@ async function addDevice() {
     const nodeIdToggle = document.getElementById('toggleNodeId');
     const name = nameInput.value.trim();
     const type = typeSelect.value;
-    const addBtn = document.getElementById('add-button');
 
+    const addBtn = document.getElementsByClassName('add-button')[0];
     addBtn.classList.add('loading');
     addBtn.disabled = true;
 
@@ -256,7 +256,7 @@ function setTimerDuration(deviceId, duration) {
 
 function startTimer(deviceId) {
     const device = deviceList.find(d => d.id === deviceId);
-    if (device && device.isOn && device.timerDuration > 0 && !device.timer) {
+    if (device && device.timerDuration > 0 && !device.timer) {
         const milliseconds = device.timerDuration * 60 * 1000;
         device.timer = setTimeout(async () => {
             try {
@@ -272,8 +272,6 @@ function startTimer(deviceId) {
         }, milliseconds);
         renderDevices();
         console.log(`${device.name} Timer für ${device.timerDuration} Minuten gestartet.`);
-    } else if (device && !device.isOn) {
-        alert(`Bitte schalte ${device.name} zuerst ein, um den Timer zu starten.`);
     } else if (device && device.timerDuration <= 0) {
         alert(`Bitte gib eine gültige Timer-Dauer (in Minuten) für ${device.name} ein.`);
     } else if (device && device.timer) {
