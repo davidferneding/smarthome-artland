@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8000/";
+const baseUrl = "http://smarthome.local:8000/";
 let deviceList = [];
 const devicesDiv = document.getElementById('devices');
 
